@@ -5,12 +5,13 @@ __doc__ = """Yes, it is slow. But sufficient for small sets.
 Usage from python:
 
   > import mhs
-  > list(mhs.mhs({9,1}, {2,3,6,9,0}))
-  [frozenset({9}),
-   frozenset({2, 1}),
-   frozenset({3, 1}),
-   frozenset({6, 1}),
-   frozenset({0, 1})]
+  > mhs.mhs({9,1}, {2,3,6,9,0})
+  {frozenset({0, 1}),
+   frozenset({1, 2}),
+   frozenset({1, 3}),
+   frozenset({1, 6}),
+   frozenset({9})}
+
 
 Or, as script (interpreting parameter strings as sets of characters):
 
@@ -53,11 +54,7 @@ def hitting_sets(sets, *rest):
     """
 
     all_sets = _prepare_sets(sets, *rest)
-
     union = reduce(or_, all_sets, set())
-    # for p in powerset(union):
-    #     if all(p & s for s in all_sets):
-    #         yield p
     return {p for p in powerset(union) if all(p & s for s in all_sets)}
 
 
@@ -68,11 +65,6 @@ def mhs(sets, *rest):
     """
 
     all_sets = _prepare_sets(sets, *rest)
-
-    # for h in hitting_sets(all_sets):
-    #     if not any(p in hitting_sets(all_sets) for p in powerset(h) if p != h):
-    #         yield h
-
     return {h for h in hitting_sets(all_sets)
             if not any(p in hitting_sets(all_sets) for p in powerset(h) if p != h)}
 
@@ -88,7 +80,7 @@ def main(argv):
 
 if __name__ == '__main__':
     import sys
-    if any(h == sys.argv[1] for h in ['--help', '-h']):
+    if len(sys.argv) == 1 or any(h == sys.argv[1] for h in ['--help', '-h']):
         print(__doc__)
     else:
         main(sys.argv)

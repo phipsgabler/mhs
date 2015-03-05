@@ -49,7 +49,7 @@ arguments, and take either one iterable of iterables or multiple iterables as ar
 splice arguments or for an extra function).
 
 Internally, everything is converted to a set of frozensets, so the only assumption on the arguments is that
-they are iterables of hashable types.
+they are finite iterables of hashable types.
 
 Examples:
 

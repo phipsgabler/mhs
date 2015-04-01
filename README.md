@@ -53,7 +53,7 @@ they are finite iterables of hashable types.
 
 Examples:
 
-```
+```python
 > mhs.hitting_sets('123', '234')
 {frozenset({'1', '2', '4'}),
  frozenset({'3'}),
